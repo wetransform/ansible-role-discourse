@@ -7,14 +7,14 @@ discourse_docker_path: /var/discourse
 #####
 ## The domain name this Discourse instance will respond to.
 #####
-discourse_hostname: 'discourse.example.com'
+discourse_hostname: 'forum.wetransform.to'
 
 #####
 ## The mailserver this Discourse instance will use.
 ## SMTP username and password are set in vars/private.yml.
 #####
-discourse_smtp_address: smtp.example.com
-discourse_smtp_port: 587
+discourse_smtp_address: mail.wetransform.to
+discourse_smtp_port: 465
 
 ####
 ## The CDN address for this Discourse instance (configured to pull).
@@ -26,8 +26,9 @@ discourse_cdn_url: //discourse-cdn.example.com
 ## Remember to put your certs in files/ssl/.
 ## https://meta.discourse.org/t/allowing-ssl-for-your-discourse-docker-setup
 ####
+discourse_https_port: 9011
 discourse_ssl_nginx: '  - "templates/web.ssl.template.yml"'
-discourse_ssl_docker: '  - "443:443" # fwd host port 443  to container port 443 (https)'
+discourse_ssl_docker: '  - "{{ discourse_https_port }}:443" # fwd host port 443  to container port 443 (https)'
 
 ####
 ## Enable plugins here. This is a list. Make sure the repository is public.
@@ -37,3 +38,6 @@ discourse_ssl_docker: '  - "443:443" # fwd host port 443  to container port 443 
 ##   - https://gitlab.com/username/plugin2.git
 ####
 discourse_plugins: []
+
+web_proxy_forum: true
+web_proxy_forum_port: 9010

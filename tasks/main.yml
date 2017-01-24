@@ -1,6 +1,6 @@
 ---
 # tasks file for discourse
-- include_vars: private.yml
+- include_vars: secret.yml
 
 - include: swap.yml
   when: ansible_memtotal_mb|int < 2000
@@ -34,8 +34,8 @@
     src: "ssl/{{ item }}"
     dest: "{{ discourse_docker_path }}/shared/standalone/ssl/{{ item }}"
   with_items:
-    - ssl.key
-    - ssl.crt
+    - server.key
+    - server.crt
   when: (discourse_ssl_nginx and discourse_ssl_docker) is defined
 
 - name: Copy application yaml

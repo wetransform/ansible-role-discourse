@@ -21,7 +21,7 @@ templates:
 
 ## which TCP/IP ports should this container expose?
 expose:
-  - "80:80"   # fwd host port 80   to container port 80 (http)
+  - "{{ web_proxy_forum_port }}:80"   # fwd host port 80   to container port 80 (http)
   - "2222:22" # fwd host port 2222 to container port 22 (ssh)
 {{ discourse_ssl_docker|default('') }}
 
@@ -49,9 +49,9 @@ env:
   ##
   ## TODO: The mailserver this Discourse instance will use
   DISCOURSE_SMTP_ADDRESS: {{ discourse_smtp_address }}
-  #DISCOURSE_SMTP_PORT: {{ discourse_smtp_port|default('') }}
-  #DISCOURSE_SMTP_USER_NAME: {{ discourse_smtp_user_name|default('') }}
-  #DISCOURSE_SMTP_PASSWORD: {{ discourse_smtp_password|default('') }}
+  DISCOURSE_SMTP_PORT: {{ discourse_smtp_port|default('') }}
+  DISCOURSE_SMTP_USER_NAME: {{ discourse_smtp_user_name|default('') }}
+  DISCOURSE_SMTP_PASSWORD: {{ discourse_smtp_password|default('') }}
   ##
   ## The CDN address for this Discourse instance (configured to pull)
   #DISCOURSE_CDN_URL: {{ discourse_cdn_url|default('') }}
@@ -76,7 +76,7 @@ hooks:
           - git clone https://github.com/discourse/docker_manager.git
 {% for plugin in discourse_plugins %}
           - git clone {{ plugin }}
-{% end %}
+{% endfor %}
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
